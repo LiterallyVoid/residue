@@ -33,6 +33,7 @@ Texture::Texture(std::string filename) {
   glBindTexture(GL_TEXTURE_2D, gl_id);
 
   png_image_free(&img);
+
   delete imgbuf;
 };
 
