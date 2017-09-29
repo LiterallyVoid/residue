@@ -1,6 +1,14 @@
+#include "world.h"
 #include "chunk.h"
 
-Chunk::Chunk() : mesh(new Mesh()), dirty(true) {
+Chunk::Chunk(int x, int y, World *world) : mesh(new Mesh()), dirty(true), world(world), chunkX(x), chunkY(y) {
+  for(int x = 0; x < CHUNK_SIDE_LENGTH; x++) {
+    for(int y = 0; y < CHUNK_SIDE_LENGTH; y++) {
+      for(int z = 0; z < CHUNK_HEIGHT; z++) {
+	data[x][y][z].type = (z < 64 ? 1 : 0);
+      }
+    }
+  }
 };
 
 Chunk::~Chunk() {
@@ -14,32 +22,55 @@ void Chunk::draw() {
   mesh->draw();
 };
 
+Block Chunk::getBlock(int x, int y, int z) {
+  return data[x][y][z];
+};
+
+void Chunk::setBlock(int x, int y, int z, Block b) {
+  data[x][y][z] = b;
+};
+
 void Chunk::refresh() {
   dirty = false;
   mesh->clear();
   bool faces[6] = {true, true, true, true, true, true};
-  for(int x = 0; x < 16; x++) {
-    for(int y = 0; y < 16; y++) {
-      for(int z = 0; z < 256; z++) {
+  for(int x = 0; x < CHUNK_SIDE_LENGTH; x++) {
+    for(int y = 0; y < CHUNK_SIDE_LENGTH; y++) {
+      for(int z = 0; z < CHUNK_HEIGHT; z++) {
 	renderBlock(x, y, z);
       }
     }
   }
 };
 
-void Chunk::isFaceShown(int x, int y, int z, int offsetX, int offsetY, int offsetZ) {
+bool Chunk::isFaceShown(int x, int y, int z, int offsetX, int offsetY, int offsetZ) {
+  x += offsetX;
+  y += offsetY;
+  z += offsetZ;
+
+  if(x >= 0 && y >= 0 && z >= 0 &&
+     x < CHUNK_SIDE_LENGTH && y < CHUNK_SIDE_LENGTH && z < CHUNK_HEIGHT) {
+    return data[x][y][z].type == 0;
+  }
+  if(z >= 0 && z <= CHUNK_HEIGHT) {
+    return world->getBlock(chunkX * 16 + x, chunkY * 16 + y, z).type == 0;
+  }
+  return true;
 };
 
 void Chunk::renderBlock(int x, int y, int z) {
+  if(data[x][y][z].type == 0) {
+    return;
+  }
   bool facesShown[6] = {
-    isFaceShown(x, y, z, -1, 0, 0),
-    isFaceShown(x, y, z, 0, -1, 0),
-    isFaceShown(x, y, z, 0, 0, -1),
     isFaceShown(x, y, z, 1, 0, 0),
     isFaceShown(x, y, z, 0, 1, 0),
     isFaceShown(x, y, z, 0, 0, 1),
+    isFaceShown(x, y, z, -1, 0, 0),
+    isFaceShown(x, y, z, 0, -1, 0),
+    isFaceShown(x, y, z, 0, 0, -1),
   };
-  addCube(x, y, z, faces);
+  addCube(x + chunkX * CHUNK_SIDE_LENGTH, y + chunkY * CHUNK_SIDE_LENGTH, z, facesShown);
 };
 
 void Chunk::addCube(int x, int y, int z, bool faces[6]) {

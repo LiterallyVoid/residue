@@ -5,10 +5,11 @@
 #include <GLFW/glfw3.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <cmath>
 
 #include "texture.h"
 #include "chunk.h"
-#include <cmath>
+#include "world.h"
 
 int main(int argc, char **argv) {
   if(!glfwInit()) {
@@ -34,7 +35,7 @@ int main(int argc, char **argv) {
   Texture *tex = new Texture("assets/blocks/dirt.png");
   tex->bind();
 
-  Chunk *c = new Chunk();
+  World *w = new World();
 
   while(!glfwWindowShouldClose(window)) {
 
@@ -49,20 +50,20 @@ int main(int argc, char **argv) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(90, width / (float) height, 0.1, 1000.0);
-    float x = sin(glfwGetTime()) * 20;
-    float y = cos(glfwGetTime()) * 20;
-    gluLookAt(x, y, 20, 0, 0, 0, 0, 0, 1);
+    float x = sin(glfwGetTime()) * 10;
+    float y = cos(glfwGetTime()) * 10;
+    gluLookAt(x, y, 70, 0, 0, 64, 0, 0, 1);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    c->draw();
+    w->draw();
 
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
 
-  delete c;
+  delete w;
 
   glfwTerminate();
 };
