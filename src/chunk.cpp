@@ -12,7 +12,22 @@ Chunk::Chunk(int x, int y, World *world) : mesh(new Mesh()), dirty(true), world(
   for(int x = 0; x < CHUNK_SIDE_LENGTH; x++) {
     for(int y = 0; y < CHUNK_SIDE_LENGTH; y++) {
       float m = 0.01;
-      int h = myModule.GetValue((CHUNK_SIDE_LENGTH * chunkX + x) * m, (CHUNK_SIDE_LENGTH * chunkY + y) * m, 0.0) * 16 + 64;
+      float m2 = 0.002;
+      float m3 = 0.005;
+      float m4 = 0.004;
+      float h1 = myModule.GetValue((CHUNK_SIDE_LENGTH * chunkX + x) * m, (CHUNK_SIDE_LENGTH * chunkY + y) * m, 0.0) * 16 + 64;
+      float h2 = myModule.GetValue((CHUNK_SIDE_LENGTH * chunkX + x) * m2, (CHUNK_SIDE_LENGTH * chunkY + y) * m2, 0.0) * 16 + 64;
+      float i = myModule.GetValue((CHUNK_SIDE_LENGTH * chunkX + x) * m3, (CHUNK_SIDE_LENGTH * chunkY + y) * m3, 0.0);
+      float c = myModule.GetValue((CHUNK_SIDE_LENGTH * chunkX + x) * m4, (CHUNK_SIDE_LENGTH * chunkY + y) * m4, 0.0);\
+      if(c < 0.05) {
+	c = 0.05;
+      }
+      c = c * 0.2;
+      i = (i - 0.5) / c;
+      float h = (i < 0 ? h1 : (i > 1 ? h2 : h1 * (1 - i) + h2 * i));;
+      if(h < 64) {
+	h = 64;
+      }
       for(int z = 0; z < CHUNK_HEIGHT; z++) {
 	data[x][y][z].type = (z < h) ? 1 : 0;
       }
