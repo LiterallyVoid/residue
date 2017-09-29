@@ -73,6 +73,23 @@ bool Chunk::isFaceShown(int x, int y, int z, int offsetX, int offsetY, int offse
   return getSelfBlock(x, y, z).type == 0;
 };
 
+float Chunk::getAO(int x, int y, int z) {
+  int sum = 0;
+  for(int i = 0; i < 8; i++) {
+    int offsetX = (i & 1 ? -1 : 0);
+    int offsetY = (i & 2 ? -1 : 0);
+    int offsetZ = (i & 4 ? -1 : 0);
+    if(getSelfBlock(x + offsetX, y + offsetY, z + offsetZ).type == 0) {
+      sum++;
+    }
+  }
+  if(sum < 4) {
+    float l = 1.0 - (sum / 4.0);
+    return 1.0 - (l * l);
+  }
+  return 1.0;
+};
+
 void Chunk::renderBlock(int x, int y, int z) {
   if(data[x][y][z].type == 0) {
     return;
@@ -150,7 +167,7 @@ void Chunk::addCube(int x, int y, int z, bool faces[6]) {
 	if(uvindex > 3) uvindex -= 4;
         int pos[3] = {vertices[direction][index][0], vertices[direction][index][1], vertices[direction][index][2]};
 	pos[direction] = (i < 3 ? max : min);
-	float light = multipliers[i];
+	float light = multipliers[i] * getAO(pos[0] + x, pos[1] + y, pos[2] + z);
 	Vertex vert;
 	vert.u = uvs[uvindex][0] * (i < 3 ? 1 : -1);
 	vert.v = uvs[uvindex][1];
