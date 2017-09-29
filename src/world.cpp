@@ -1,11 +1,6 @@
 #include "world.h"
 
 World::World() {
-  for(int i = -12; i < 12; i++) {
-    for(int j = -12; j < 12; j++) {
-      loadChunk(i, j);
-    }
-  }
 };
 
 World::~World() {
@@ -14,6 +9,17 @@ World::~World() {
 void World::draw() {
   for(auto it : chunks) {
     it.second->draw();
+  }
+
+  int stop = 10;
+  for(int r = 0; r < 14 && stop != 0; r++) {
+    for(int i = -r; i < r && stop != 0; i++) {
+      for(int j = -r; j < r && stop != 0; j++) {
+	if(loadChunk(i, j)) {
+	  stop--;
+	}
+      }
+    }
   }
 };
 
@@ -47,8 +53,12 @@ Chunk *World::getChunk(int x, int y, int &chunkX, int &chunkY) {
   return c->second;
 };
 
-void World::loadChunk(int x, int y) {
+bool World::loadChunk(int x, int y) {
   std::array<int, 2> key = {x, y};
+
+  if(chunks.find(key) != chunks.end()) {
+    return false;
+  }
 
   chunks[key] = new Chunk(x, y, this);
 
@@ -61,4 +71,5 @@ void World::loadChunk(int x, int y) {
       }
     }
   }
+  return true;
 };

@@ -1,11 +1,20 @@
+#include <GLFW/glfw3.h>
+
+#include <noise/noise.h>
+
 #include "world.h"
 #include "chunk.h"
 
 Chunk::Chunk(int x, int y, World *world) : mesh(new Mesh()), dirty(true), world(world), chunkX(x), chunkY(y) {
+
+  noise::module::Perlin myModule;
+
   for(int x = 0; x < CHUNK_SIDE_LENGTH; x++) {
     for(int y = 0; y < CHUNK_SIDE_LENGTH; y++) {
+      float m = 0.01;
+      int h = myModule.GetValue((CHUNK_SIDE_LENGTH * chunkX + x) * m, (CHUNK_SIDE_LENGTH * chunkY + y) * m, 0.0) * 16 + 64;
       for(int z = 0; z < CHUNK_HEIGHT; z++) {
-	data[x][y][z].type = (z < (rand() % 10 + 56)) ? 1 : 0;
+	data[x][y][z].type = (z < h) ? 1 : 0;
       }
     }
   }

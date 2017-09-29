@@ -31,6 +31,7 @@ int main(int argc, char **argv) {
 
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_TEXTURE_2D);
+  glEnable(GL_CULL_FACE);
 
   Texture *tex = new Texture("assets/blocks/dirt.png");
   tex->bind();
@@ -50,9 +51,9 @@ int main(int argc, char **argv) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(90, width / (float) height, 0.1, 1000.0);
-    float x = sin(glfwGetTime()) * 10;
-    float y = cos(glfwGetTime()) * 10;
-    gluLookAt(x, y, 70, 0, 0, 64, 0, 0, 1);
+    float x = sin(glfwGetTime()) * 40;
+    float y = cos(glfwGetTime()) * 40;
+    gluLookAt(x, y, 80, 0, 0, 64, 0, 0, 1);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

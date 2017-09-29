@@ -43,6 +43,6 @@ public:
   Chunk *getChunk(int x, int y, int &chunkX, int &chunkY);
 
 private:
-  void loadChunk(int x, int y);
+  bool loadChunk(int x, int y);
   std::unordered_map<std::array<int, 2>, Chunk*> chunks;
 };
