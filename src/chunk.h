@@ -29,7 +29,10 @@ private:
   void refresh();
   void renderBlock(int x, int y, int z);
   void addCube(int x, int y, int z, bool faces[6]);
+  Block getSelfBlock(int x, int y, int z);
   bool isFaceShown(int x, int y, int z, int offsetX, int offsetY, int offsetZ);
+
+  float getAO(int x, int y, int z);
 
   Block data[CHUNK_SIDE_LENGTH][CHUNK_SIDE_LENGTH][CHUNK_HEIGHT];
   Mesh *mesh;

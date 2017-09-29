@@ -19,8 +19,10 @@ void Mesh::draw() {
 
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_COLOR_ARRAY);
   glVertexPointer(3, GL_FLOAT, sizeof(Vertex), (void*) offsetof(Vertex, x));
   glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void*) offsetof(Vertex, u));
+  glColorPointer(3, GL_FLOAT, sizeof(Vertex), (void*) offsetof(Vertex, r));
 
   glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 };

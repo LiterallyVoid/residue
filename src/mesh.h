@@ -8,6 +8,7 @@
 struct Vertex {
   float x, y, z;
   float u, v;
+  float r, g, b;
 };
 
 class Mesh {

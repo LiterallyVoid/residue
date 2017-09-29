@@ -1,8 +1,8 @@
 #include "world.h"
 
 World::World() {
-  for(int i = -16; i < 16; i++) {
-    for(int j = -16; j < 16; j++) {
+  for(int i = -12; i < 12; i++) {
+    for(int j = -12; j < 12; j++) {
       loadChunk(i, j);
     }
   }
@@ -32,7 +32,7 @@ void World::setBlock(int x, int y, int z, Block b) {
   int chunkX, chunkY;
   Chunk *c = getChunk(x, y, chunkX, chunkY);
   if(c != NULL) {
-    c->setBlock(x + chunkX * CHUNK_SIDE_LENGTH, y + chunkY * CHUNK_SIDE_LENGTH, z, b);
+    c->setBlock(x - chunkX * CHUNK_SIDE_LENGTH, y - chunkY * CHUNK_SIDE_LENGTH, z, b);
   }
 };
 
@@ -56,6 +56,9 @@ void World::loadChunk(int x, int y) {
     for(int j = -1; j <= 1; j++) {
       int chunkX, chunkY;
       Chunk *c = getChunk(i, j, chunkX, chunkY);
+      if(c != NULL) {
+	c->dirty = true;
+      }
     }
   }
 };
