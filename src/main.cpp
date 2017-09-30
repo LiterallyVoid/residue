@@ -51,8 +51,8 @@ int main(int argc, char **argv) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(90, width / (float) height, 0.1, 1000.0);
-    float x = sin(glfwGetTime()) * 40;
-    float y = cos(glfwGetTime()) * 40;
+    float x = sin(glfwGetTime() * 0.1) * 40;
+    float y = cos(glfwGetTime() * 0.1) * 40;
     gluLookAt(x, y, 80, 0, 0, 64, 0, 0, 1);
 
     glMatrixMode(GL_MODELVIEW);
