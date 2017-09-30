@@ -65,7 +65,7 @@ bool World::loadChunk(int x, int y) {
   for(int i = -1; i <= 1; i++) {
     for(int j = -1; j <= 1; j++) {
       int chunkX, chunkY;
-      Chunk *c = getChunk(i, j, chunkX, chunkY);
+      Chunk *c = getChunk((x + i) * CHUNK_SIDE_LENGTH, (y + j) * CHUNK_SIDE_LENGTH, chunkX, chunkY);
       if(c != NULL) {
 	c->dirty = true;
       }
