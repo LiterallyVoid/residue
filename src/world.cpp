@@ -11,8 +11,8 @@ void World::draw() {
     it.second->draw();
   }
 
-  int stop = 10;
-  for(int r = 0; r < 14 && stop != 0; r++) {
+  int stop = 1000;
+  for(int r = 0; r < 32 && stop != 0; r++) {
     for(int i = -r; i < r && stop != 0; i++) {
       for(int j = -r; j < r && stop != 0; j++) {
 	if(loadChunk(i, j)) {

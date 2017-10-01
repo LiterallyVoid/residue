@@ -13,7 +13,7 @@ struct Vertex {
 
 class Mesh {
 public:
-  Mesh();
+  Mesh(Shader *shader);
   ~Mesh();
 
   void draw();
@@ -27,6 +27,7 @@ private:
 
   bool dirty;
 
+  GLuint vao;
   GLuint vbo;
   Shader *shader;
 

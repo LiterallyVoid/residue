@@ -5,7 +5,7 @@
 #include "world.h"
 #include "chunk.h"
 
-Chunk::Chunk(int x, int y, World *world) : mesh(new Mesh()), dirty(true), world(world), chunkX(x), chunkY(y) {
+Chunk::Chunk(int x, int y, World *world, Shader *shader) : mesh(new Mesh(shader)), dirty(true), world(world), chunkX(x), chunkY(y) {
 
   noise::module::Perlin myModule;
 

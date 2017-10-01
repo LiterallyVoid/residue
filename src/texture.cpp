@@ -1,5 +1,8 @@
 
 #include <X11/Xlib.h>
+
+#define GLFW_INCLUDE_GLU
+
 #include <GLFW/glfw3.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -25,10 +28,12 @@ Texture::Texture(std::string filename) {
 
   glBindTexture(GL_TEXTURE_2D, gl_id);
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgbuf);
+  gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, imgbuf);
+  //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgbuf);
 
   glBindTexture(GL_TEXTURE_2D, gl_id);
 
