@@ -44,6 +44,7 @@ int main(int argc, char **argv) {
 
     glfwGetFramebufferSize(window, &width, &height);
 
+    glClearColor(0.3, 0.7, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glViewport(0, 0, width, height);
@@ -51,9 +52,9 @@ int main(int argc, char **argv) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(90, width / (float) height, 0.1, 1000.0);
-    float x = sin(glfwGetTime() * 0.5) * 100;
-    float y = cos(glfwGetTime() * 0.5) * 100;
-    gluLookAt(x, y, 200, 0, 0, 64, 0, 0, 1);
+    float x = sin(glfwGetTime() * 0.1) * 20;
+    float y = cos(glfwGetTime() * 0.1) * 20;
+    gluLookAt(x, y, 75, 0, 0, 64, 0, 0, 1);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -65,6 +66,8 @@ int main(int argc, char **argv) {
   }
 
   delete w;
+  delete tex;
 
+  glfwDestroyWindow(window);
   glfwTerminate();
 };

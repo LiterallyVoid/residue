@@ -6,7 +6,6 @@
 #include "chunk.h"
 
 Chunk::Chunk(int x, int y, World *world, Shader *shader) : mesh(new Mesh(shader)), dirty(true), world(world), chunkX(x), chunkY(y) {
-
   noise::module::Perlin myModule;
 
   for(int x = 0; x < CHUNK_SIDE_LENGTH; x++) {
@@ -24,7 +23,7 @@ Chunk::Chunk(int x, int y, World *world, Shader *shader) : mesh(new Mesh(shader)
       }
       c = c * 0.2;
       i = (i - 0.5) / c;
-      float h = (i < 0 ? h1 : (i > 1 ? h2 : h1 * (1 - i) + h2 * i));;
+      float h = (i < 0 ? h1 : (i > 1 ? h2 : h1 * (1 - i) + h2 * i));
       if(h < 64) {
 	h = 64;
       }

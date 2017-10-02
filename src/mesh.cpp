@@ -3,7 +3,7 @@
 
 #include "mesh.h"
 
-Mesh::Mesh(Shader *shader) ; shader(shader) {
+Mesh::Mesh(Shader *shader) : shader(shader) {
   glGenBuffers(1, &vbo);
 
   glGenVertexArrays(1, &vao);
@@ -22,6 +22,8 @@ void Mesh::draw() {
   if(dirty) {
     refresh();
   }
+
+  shader->bind();
 
   glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 };

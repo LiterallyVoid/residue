@@ -1,9 +1,14 @@
 #include "world.h"
 
 World::World() {
+  shader = new Shader("assets/shaders/world.vert", "assets/shaders/world.frag");
 };
 
 World::~World() {
+  for(auto it : chunks) {
+    delete it.second;
+  }
+  delete shader;
 };
 
 void World::draw() {
@@ -60,14 +65,14 @@ bool World::loadChunk(int x, int y) {
     return false;
   }
 
-  chunks[key] = new Chunk(x, y, this);
+  chunks[key] = new Chunk(x, y, this, shader);
 
   for(int i = -1; i <= 1; i++) {
     for(int j = -1; j <= 1; j++) {
-      int chunkX, chunkY;
-      Chunk *c = getChunk((x + i) * CHUNK_SIDE_LENGTH, (y + j) * CHUNK_SIDE_LENGTH, chunkX, chunkY);
-      if(c != NULL) {
-	c->dirty = true;
+      std::array<int, 2> key = {x + i, y + j};
+      auto c = chunks.find(key);
+      if(c != chunks.end()) {
+	c->second->dirty = true;
       }
     }
   }

@@ -15,7 +15,7 @@ struct Block {
 
 class Chunk {
 public:
-  Chunk(int x, int y, World *world);
+  Chunk(int x, int y, World *world, Shader *shader);
   ~Chunk();
 
   bool dirty;

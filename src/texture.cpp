@@ -18,9 +18,6 @@ Texture::Texture(std::string filename) {
   png_image_begin_read_from_file(&img, filename.c_str());
   img.format = PNG_FORMAT_RGBA;
 
-  width = img.width;
-  height = img.height;
-
   unsigned char *imgbuf = new unsigned char[PNG_IMAGE_SIZE(img)];
   png_image_finish_read(&img, NULL, imgbuf, PNG_IMAGE_ROW_STRIDE(img), NULL);
 
@@ -28,18 +25,23 @@ Texture::Texture(std::string filename) {
 
   glBindTexture(GL_TEXTURE_2D, gl_id);
 
-
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-  gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, imgbuf);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);
+
+  gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, img.width, img.height, GL_RGBA, GL_UNSIGNED_BYTE, imgbuf);
   //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgbuf);
 
   glBindTexture(GL_TEXTURE_2D, gl_id);
 
-  png_image_free(&img);
+  delete[] imgbuf;
 
-  delete imgbuf;
+  png_image_free(&img);
+};
+
+Texture::~Texture() {
+  glDeleteTextures(1, &gl_id);
 };
 
 void Texture::bind() {
