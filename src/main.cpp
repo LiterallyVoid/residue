@@ -50,11 +50,11 @@ int main(int argc, char **argv) {
     double nmouseX, nmouseY;
     glfwGetCursorPos(window, &nmouseX, &nmouseY);
 
-    xRot += (mouseY - nmouseY) * 0.3;
-    yRot -= (mouseX - nmouseX) * 0.3;
+    xRot += (mouseY - nmouseY) * 0.01;
+    yRot -= (mouseX - nmouseX) * 0.01;
 
-    if(xRot < -90) xRot = -90;
-    if(xRot > 90) xRot = 90;
+    if(xRot < -M_PI * 0.5) xRot = -M_PI * 0.5;
+    if(xRot > M_PI * 0.5) xRot = M_PI * 0.5;
 
     mouseX = nmouseX;
     mouseY = nmouseY;
@@ -78,9 +78,9 @@ int main(int argc, char **argv) {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glRotatef(xRot, 0, 1, 0);
-    glRotatef(yRot, 0, 0, 1);
-    glTranslatef(0, 0, -76);
+    glRotatef(xRot * 180 / M_PI, 0, 1, 0);
+    glRotatef(yRot * 180 / M_PI, 0, 0, 1);
+    glTranslatef(0, 0, -70);
 
     w->draw();
 
