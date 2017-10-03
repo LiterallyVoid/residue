@@ -98,8 +98,8 @@ float Chunk::getAO(int x, int y, int z) {
     }
   }
   if(sum < 4) {
-    float l = 1.0 - (sum / 4.0);
-    return 1.0 - (l * l);
+    float l = (sum / 4.0);
+    return (l * l) * 0.5 + 0.5;
   }
   return 1.0;
 };
@@ -120,7 +120,6 @@ void Chunk::renderBlock(int x, int y, int z) {
 };
 
 void Chunk::addCube(int x, int y, int z, bool faces[6]) {
-
   int directions[6] = {0, 1, 2, 0, 1, 2};
 
   int min = 0;
@@ -160,8 +159,8 @@ void Chunk::addCube(int x, int y, int z, bool faces[6]) {
   };
 
   float multipliers[6] = {
-    0.85,
-    0.95,
+    0.55,
+    0.65,
     1.0,
     0.75,
     0.65,

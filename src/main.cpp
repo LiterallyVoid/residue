@@ -38,7 +38,27 @@ int main(int argc, char **argv) {
 
   World *w = new World();
 
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+  float xRot = 0;
+  float yRot = 0;
+
+  double mouseX, mouseY;
+
   while(!glfwWindowShouldClose(window)) {
+
+    double nmouseX, nmouseY;
+    glfwGetCursorPos(window, &nmouseX, &nmouseY);
+
+    xRot += (mouseY - nmouseY) * 0.3;
+    yRot -= (mouseX - nmouseX) * 0.3;
+
+    if(xRot < -90) xRot = -90;
+    if(xRot > 90) xRot = 90;
+
+    mouseX = nmouseX;
+    mouseY = nmouseY;
+
 
     int width, height;
 
@@ -54,10 +74,13 @@ int main(int argc, char **argv) {
     gluPerspective(90, width / (float) height, 0.1, 1000.0);
     float x = sin(glfwGetTime() * 0.1) * 20;
     float y = cos(glfwGetTime() * 0.1) * 20;
-    gluLookAt(x, y, 75, 0, 0, 64, 0, 0, 1);
+    gluLookAt(0, 0, 0, 1, 0, 0, 0, 0, 1);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glRotatef(xRot, 0, 1, 0);
+    glRotatef(yRot, 0, 0, 1);
+    glTranslatef(0, 0, -76);
 
     w->draw();
 

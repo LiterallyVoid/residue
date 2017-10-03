@@ -37,6 +37,8 @@ public:
 
   void draw();
 
+  std::array<int, 3> castRay(float start[3], float direction[3], float maxDistance);
+
   Block getBlock(int x, int y, int z);
   void setBlock(int x, int y, int z, Block b);
 

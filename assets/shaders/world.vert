@@ -3,8 +3,10 @@
 out vec4 color;
 out vec2 uv;
 out float fog;
+out vec4 pos;
 
 void main(void) {
+  pos = gl_Vertex;
   vec4 cameraPos = vec4(0, 0, 0, 1) * gl_ModelViewProjectionMatrix;
   fog = distance(cameraPos, gl_Vertex) * 0.003;
   fog = fog * fog;
