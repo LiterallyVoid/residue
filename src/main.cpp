@@ -84,6 +84,10 @@ int main(int argc, char **argv) {
 
     w->draw();
 
+    float start[3] = {0, 0, 70};
+    float direction[3] = {cos(yRot) * cos(xRot), -sin(yRot) * cos(xRot), sin(xRot)};
+    std::array<int, 3> out = w->castRay(start, direction, 100.0);
+
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
