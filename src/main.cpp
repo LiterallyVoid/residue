@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 
   World *w = new World();
 
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   float xRot = 0;
   float yRot = 0;
@@ -69,14 +69,9 @@ int main(int argc, char **argv) {
 
     glViewport(0, 0, width, height);
 
-    float fov = 90.0;
-    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS) {
-      fov = 15.0;
-    }
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(fov, width / (float) height, 0.1, 1000.0);
+    gluPerspective(90, width / (float) height, 0.1, 1000.0);
     float x = sin(glfwGetTime() * 0.1) * 20;
     float y = cos(glfwGetTime() * 0.1) * 20;
     gluLookAt(0, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -91,12 +86,15 @@ int main(int argc, char **argv) {
 
     float start[3] = {0, 0, 70};
     float direction[3] = {cos(yRot) * cos(xRot), -sin(yRot) * cos(xRot), sin(xRot)};
-    std::array<int, 3> out = w->castRay(start, direction, 10000.0);
+    bool success;
+    std::array<int, 3> out = w->castRay(start, direction, 10000.0, success);
 
-    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-      Block b;
-      b.type = 0;
-      w->setBlock(out[0], out[1], out[2], b);
+    if(success) {
+      if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+	Block b;
+	b.type = 0;
+	w->setBlock(out[0], out[1], out[2], b);
+      }
     }
 
     glfwSwapBuffers(window);
