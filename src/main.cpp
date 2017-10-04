@@ -50,8 +50,8 @@ int main(int argc, char **argv) {
     double nmouseX, nmouseY;
     glfwGetCursorPos(window, &nmouseX, &nmouseY);
 
-    xRot += (mouseY - nmouseY) * 0.01;
-    yRot -= (mouseX - nmouseX) * 0.01;
+    xRot += (mouseY - nmouseY) * 0.004;
+    yRot -= (mouseX - nmouseX) * 0.004;
 
     if(xRot < -M_PI * 0.5) xRot = -M_PI * 0.5;
     if(xRot > M_PI * 0.5) xRot = M_PI * 0.5;
@@ -87,6 +87,12 @@ int main(int argc, char **argv) {
     float start[3] = {0, 0, 70};
     float direction[3] = {cos(yRot) * cos(xRot), -sin(yRot) * cos(xRot), sin(xRot)};
     std::array<int, 3> out = w->castRay(start, direction, 100.0);
+
+    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+      Block b;
+      b.type = 0;
+      w->setBlock(out[0], out[1], out[2], b);
+    }
 
     glfwSwapBuffers(window);
     glfwPollEvents();
