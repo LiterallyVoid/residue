@@ -30,7 +30,7 @@ void World::draw() {
   }
 };
 
-std::array<int, 3> World::castRay(float start[3], float direction[3], float maxDistance) {
+std::array<int, 3> World::castRay(float start[3], float direction[3], float maxDistance, bool &success) {
   int pos[3] = {(int) start[0], (int) start[1], (int) start[2]};
   float deltaDist[3];
   float next[3];
@@ -61,12 +61,17 @@ std::array<int, 3> World::castRay(float start[3], float direction[3], float maxD
     next[side] += deltaDist[side];
     pos[side] += step[side];
     distance += deltaDist[side];
+    if(pos[2] < 0 || pos[2] > CHUNK_HEIGHT) {
+      break;
+    }
     Block b = getBlock(pos[0], pos[1], pos[2]);
     if(b.type != 0) {
       std::array<int, 3> val = {pos[0], pos[1], pos[2]};
+      success = true;
       return val;
     }
   }
+  success = false;
 };
 
 Block World::getBlock(int x, int y, int z) {
