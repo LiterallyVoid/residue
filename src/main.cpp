@@ -40,25 +40,16 @@ int main(int argc, char **argv) {
 
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-  float xRot = 0;
-  float yRot = 0;
-
-  double mouseX, mouseY;
+  double mouse[2];
 
   while(!glfwWindowShouldClose(window)) {
 
-    double nmouseX, nmouseY;
-    glfwGetCursorPos(window, &nmouseX, &nmouseY);
+    double nmouse[2];
+    glfwGetCursorPos(window, &nmouse[0], &nmouse[1]);
 
-    xRot += (mouseY - nmouseY) * 0.004;
-    yRot -= (mouseX - nmouseX) * 0.004;
+    double mouseDelta[2] = {nmouse[0] - mouse[0], nmouse[1] - mouse[1]};
 
-    if(xRot < -M_PI * 0.5) xRot = -M_PI * 0.5;
-    if(xRot > M_PI * 0.5) xRot = M_PI * 0.5;
-
-    mouseX = nmouseX;
-    mouseY = nmouseY;
-
+    mouse[0] = nmouse[0]; mouse[1] = nmouse[1];
 
     int width, height;
 
@@ -78,24 +69,8 @@ int main(int argc, char **argv) {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glRotatef(xRot * 180 / M_PI, 0, 1, 0);
-    glRotatef(yRot * 180 / M_PI, 0, 0, 1);
-    glTranslatef(0, 0, -70);
 
     w->draw();
-
-    float start[3] = {0, 0, 70};
-    float direction[3] = {cos(yRot) * cos(xRot), -sin(yRot) * cos(xRot), sin(xRot)};
-    bool success;
-    std::array<int, 3> out = w->castRay(start, direction, 10000.0, success);
-
-    if(success) {
-      if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-	Block b;
-	b.type = 0;
-	w->setBlock(out[0], out[1], out[2], b);
-      }
-    }
 
     glfwSwapBuffers(window);
     glfwPollEvents();
