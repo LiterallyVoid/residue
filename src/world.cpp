@@ -89,7 +89,8 @@ void World::setBlock(int x, int y, int z, Block b) {
 
   for(int i = -1; i <= 1; i++) {
     for(int j = -1; j <= 1; j++) {
-      std::array<int, 2> key = {x + i, y + j};
+      std::array<int, 2> key = {x / CHUNK_SIDE_LENGTH + i, y / CHUNK_SIDE_LENGTH + j};
+      printf("%d %d\n", key[0], key[1]);
       auto c = chunks.find(key);
       if(c != chunks.end()) {
 	c->second->dirty = true;
