@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 
   World *w = new World();
 
-  //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   float xRot = 0;
   float yRot = 0;
