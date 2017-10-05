@@ -3,8 +3,7 @@
 
 #include "file.h"
 
-std::string readFile(std::string filename)
-{
+std::string readFile(std::string filename) {
   std::ifstream in(filename, std::ios::in | std::ios::binary);
   if (in)
   {

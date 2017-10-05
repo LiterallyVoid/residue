@@ -116,10 +116,10 @@ void Chunk::renderBlock(int x, int y, int z) {
     isFaceShown(x, y, z, 0, -1, 0),
     isFaceShown(x, y, z, 0, 0, -1),
   };
-  addCube(x, y, z, facesShown);
+  renderCube(x, y, z, facesShown);
 };
 
-void Chunk::addCube(int x, int y, int z, bool faces[6]) {
+void Chunk::renderCube(int x, int y, int z, bool faces[6]) {
   int directions[6] = {0, 1, 2, 0, 1, 2};
 
   int min = 0;
